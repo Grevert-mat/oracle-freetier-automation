@@ -27,7 +27,7 @@ class OracleInstanceCreator:
                 # NOVO: client certo para listar ADs
         self.identity_client = oci.identity.IdentityClient(self.config)
         
-    def get_availability_domains(self, tenancy_id:
+    def get_availability_domains(self, tenancy_iid):
         """Get available domains in compartment"""
         try:
                     response = self.identity_client.list_availability_domains(tenancy_id)
