@@ -24,11 +24,13 @@ class OracleInstanceCreator:
         self.config = oci.config.from_file(config_file, profile)
         self.compute_client = oci.core.ComputeClient(self.config)
         self.network_client = oci.core.VirtualNetworkClient(self.config)
+                # NOVO: client certo para listar ADs
+        self.identity_client = oci.identity.IdentityClient(self.config)
         
-    def get_availability_domains(self, compartment_id):
+    def get_availability_domains(self, tenancy_id:
         """Get available domains in compartment"""
         try:
-            response = self.compute_client.list_availability_domains(compartment_id)
+                    response = self.identity_client.list_availability_domains(tenancy_id)
             return [ad.name for ad in response.data]
         except Exception as e:
             logger.error(f"Error getting ADs: {e}")
@@ -140,7 +142,7 @@ class OracleInstanceCreator:
             
             try:
                 # Get ADs and networking
-                ads = self.get_availability_domains(compartment_id)
+                ads = self.get_availability_domains(tenancy_id
                 if not ads:
                     logger.error("No availability domains found")
                     if max_retries and attempt >= max_retries:
