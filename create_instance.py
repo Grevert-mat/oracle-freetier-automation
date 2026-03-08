@@ -31,7 +31,7 @@ class OracleInstanceCreator:
         """Get available domains in compartment"""
         try:
                     response = self.identity_client.list_availability_domains(tenancy_id)
-            return [ad.name for ad in response.data]
+                return [ad.name for ad in response.data]
         except Exception as e:
             logger.error(f"Error getting ADs: {e}")
             return []
